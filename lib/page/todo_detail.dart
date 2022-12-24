@@ -17,7 +17,7 @@ class NoteDetailPage extends StatefulWidget {
 }
 
 class _NoteDetailPageState extends State<NoteDetailPage> {
-  late Note note;
+  late Note todo;
   bool isLoading = false;
 
   @override
@@ -30,7 +30,7 @@ class _NoteDetailPageState extends State<NoteDetailPage> {
   Future refreshNote() async {
     setState(() => isLoading = true);
 
-    note = await NotesDatabase.instance.readNote(widget.noteId);
+    todo = await NotesDatabase.instance.readNote(widget.noteId);
 
     setState(() => isLoading = false);
   }
@@ -48,7 +48,7 @@ class _NoteDetailPageState extends State<NoteDetailPage> {
         padding: const EdgeInsets.symmetric(vertical: 8),
         children: [
           Text(
-            note.title,
+            todo.title,
             style: const TextStyle(
               color: Colors.white,
               fontSize: 22,
@@ -57,12 +57,12 @@ class _NoteDetailPageState extends State<NoteDetailPage> {
           ),
           const SizedBox(height: 8),
           Text(
-            DateFormat.yMMMd().format(note.createdTime),
+            DateFormat.yMMMd().format(todo.createdTime),
             style: const TextStyle(color: Colors.white38),
           ),
           const SizedBox(height: 8),
           Text(
-            note.description,
+            todo.description,
             style: const TextStyle(color: Colors.white70, fontSize: 18),
           )
         ],
@@ -76,7 +76,7 @@ class _NoteDetailPageState extends State<NoteDetailPage> {
         if (isLoading) return;
 
         await Navigator.of(context).push(MaterialPageRoute(
-          builder: (context) => AddEditNotePage(note: note),
+          builder: (context) => AddEditNotePage(note: todo),
         ));
 
         refreshNote();
